@@ -1,0 +1,247 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:DominoPlay.ViewModels"
+        x:Class="DominoPlay.Views.MainWindow"
+        Title="Домино"
+        Width="1000"
+        Height="750"
+        Background="#2E2E2E">
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" 
+                   Text="🎲 ДОМИНО 🎲" 
+                   FontSize="32" 
+                   FontWeight="Bold"
+                   Foreground="White"
+                   HorizontalAlignment="Center"
+                   Margin="0,10" />
+
+        <Border Grid.Row="1"
+                Background="#3A3A3A"
+                CornerRadius="8"
+                Padding="15"
+                Margin="0,5,0,15">
+            <StackPanel>
+                <TextBlock Text="{Binding StatusMessage}" 
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="#FFD700"
+                           HorizontalAlignment="Center" />
+                <TextBlock Text="{Binding CurrentPlayerName, StringFormat='Ход: {0}'}" 
+                           FontSize="16"
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           Margin="0,5,0,0" />
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="2"
+                Background="#3A3A3A"
+                CornerRadius="8"
+                Padding="10"
+                Margin="0,0,0,10">
+            <StackPanel>
+                <TextBlock Text="💻 Компьютер" 
+                           FontSize="16"
+                           FontWeight="Bold"
+                           Foreground="#87CEEB"
+                           Margin="0,0,0,5" />
+                <ItemsControl ItemsSource="{Binding ComputerHand}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#4A4A4A"
+                                    CornerRadius="5"
+                                    Padding="10,15"
+                                    Margin="2"
+                                    BorderBrush="#666"
+                                    BorderThickness="1">
+                                <TextBlock Text="❓" 
+                                           FontSize="20"
+                                           Foreground="White" />
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="3"
+                Background="#1A3A1A"
+                CornerRadius="8"
+                Padding="10"
+                Margin="0,0,0,10">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Disabled">
+                <ItemsControl ItemsSource="{Binding TableTiles}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#2A5A2A"
+                                    CornerRadius="5"
+                                    Padding="8,12"
+                                    Margin="2"
+                                    BorderBrush="#4A8A4A"
+                                    BorderThickness="1">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Left}" 
+                                               FontSize="22"
+                                               FontWeight="Bold"
+                                               Foreground="White"
+                                               Width="30"
+                                               HorizontalAlignment="Center" />
+                                    <TextBlock Text="|" 
+                                               FontSize="22"
+                                               Foreground="#888"
+                                               Margin="3,0" />
+                                    <TextBlock Text="{Binding Right}" 
+                                               FontSize="22"
+                                               FontWeight="Bold"
+                                               Foreground="White"
+                                               Width="30"
+                                               HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+
+        <Border Grid.Row="4"
+                Background="#3A3A3A"
+                CornerRadius="8"
+                Padding="10"
+                Margin="0,0,0,10">
+            <StackPanel>
+                <TextBlock Text="👤 Игрок" 
+                           FontSize="16"
+                           FontWeight="Bold"
+                           Foreground="#98FB98"
+                           Margin="0,0,0,5" />
+                <ItemsControl ItemsSource="{Binding PlayerHand}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Command="{Binding $parent[ItemsControl].DataContext.SelectTileCommand}"
+                                    CommandParameter="{Binding}"
+                                    Padding="0"
+                                    Margin="3"
+                                    Background="Transparent"
+                                    BorderThickness="0">
+                                <Border Background="#4A4A4A"
+                                        CornerRadius="5"
+                                        Padding="8,12"
+                                        BorderBrush="#888"
+                                        BorderThickness="2">
+                                    <Border.Styles>
+                                        <Style Selector="Border:pointerover">
+                                            <Setter Property="Background" Value="#5A5A5A" />
+                                        </Style>
+                                    </Border.Styles>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Left}" 
+                                                   FontSize="22"
+                                                   FontWeight="Bold"
+                                                   Foreground="White"
+                                                   Width="35"
+                                                   HorizontalAlignment="Center" />
+                                        <TextBlock Text="|" 
+                                                   FontSize="22"
+                                                   Foreground="#888"
+                                                   Margin="4,0" />
+                                        <TextBlock Text="{Binding Right}" 
+                                                   FontSize="22"
+                                                   FontWeight="Bold"
+                                                   Foreground="White"
+                                                   Width="35"
+                                                   HorizontalAlignment="Center" />
+                                    </StackPanel>
+                                </Border>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <StackPanel Grid.Row="5"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Spacing="10"
+                    Margin="0,5,0,5">
+            <Button Command="{Binding NewGameCommand}"
+                    Background="#4CAF50"
+                    Foreground="White"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Padding="25,12"
+                    CornerRadius="8">
+                🔄 Новая игра
+            </Button>
+            
+            <Button Command="{Binding AutoPlaceCommand}"
+                    Background="#9C27B0"
+                    Foreground="White"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Padding="25,12"
+                    CornerRadius="8">
+                🤖 Авто-ход
+            </Button>
+            
+            <Button Command="{Binding TakeFromStockCommand}"
+                    Background="#FF9800"
+                    Foreground="White"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Padding="25,12"
+                    CornerRadius="8">
+                🎯 Взять из базара
+            </Button>
+            
+            <Button Command="{Binding PassCommand}"
+                    Background="#F44336"
+                    Foreground="White"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Padding="25,12"
+                    CornerRadius="8">
+                ⏭ Пропустить
+            </Button>
+        </StackPanel>
+
+        <TextBlock Grid.Row="6"
+                   Text="💡 Кликни по кости, затем нажми Авто-ход или кнопки"
+                   FontSize="14"
+                   Foreground="#888"
+                   HorizontalAlignment="Center"
+                   Margin="0,5" />
+    </Grid>
+</Window>
